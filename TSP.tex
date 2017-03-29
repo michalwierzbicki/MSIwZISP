@@ -159,11 +159,15 @@ Cykl $C$ taki, że suma kar za przekroczenie terminu jest minimalna.
 
 \begin{frame}
 \frametitle{Algorytm mrówkowy}
-każda mrówka zostawia feromon wartości f \\
-funkcja ruletki \\
-współczynnik parowania \\
-minimalna ilość feromonu na kraœedzi \\
-liczba mrówek \\
+\begin{itemize}
+
+\item Każda mrówka po danej iteracji zostawia na krawędziach feromon o wartości f \\
+\item Z funckją feromonu jest związany współczynnik $\alpha$, który mówi nam jak bardzo mrówki będą w swoich wyborach uwzględniać wartość feromonu na krawędziach. \\
+\item Funkcja ruletki jest wykorzystywana do wyboru kolejnego miasta do odwiedzenia na trasie.\\
+\item Współczynnik parowania - stała z przedziału $(0,1)$ \\
+\item Minimalna ilość feromonu na krawędzi - zabezpieczenie przed utratą danych o danej krawędzi \\
+\item Liczba mrówek - wybierana na początku \\
+\end{itemize}
 \end{frame}
 %----------------------------------------------------------------------------------------
 
@@ -172,10 +176,11 @@ liczba mrówek \\
 \begin{frame}
 \frametitle{Pseudokod}
 1. Dla każdej mrówki wylosuj miasto początkowe \\
-2. Niech każda mrówka przejdzie przez wszystkie miasta (cykl Hamiltona)zgodnie z funkcją ruletki  \\
-3. Gdy wszystkie skończą zostawiają na krawędziach f/czas przejazdu po cyklu \\
-
- 
+2. Niech każda mrówka przejdzie cykl Hamiltona w grafie: startując z miasta początkowego, przejdź do dotychczas nieodwiedzonego miasta posługując się funkcją rulteki, jednocześnie pamiętając dotychczas przebytą trasę. Gdy wszystkie miasta zostały odwiedzone powróć do punktu startowego.
+3. Po zakończeniu trasy przez wszystkie mrówki dodaj na krawędzie, przez które przeszły wartość równą odwrotności długości przebytej drogi. \\
+4. Jeśli w tej iteracji któraś z mrówek znalazła lepszą ścieżkę, to zapamiętaj to rozwiązanie.\\
+5. Feromony na krawędziach przemnóż przez współczynnik parowania.\\
+6. Wykasuj pamięć dla każdej z mrówek i zacznij kolejną iterację.\\
 
 
 \end{frame}
