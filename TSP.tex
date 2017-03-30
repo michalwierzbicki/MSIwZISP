@@ -18,6 +18,7 @@
 \documentclass{beamer}
 \usepackage[OT4]{polski}
 \usepackage[utf8]{inputenc}
+\usepackage{verbatim}
 
 \mode<presentation> {
 
@@ -122,7 +123,7 @@ University of Wrocław \\ % Your institution for the title page
 \begin{frame}
 \frametitle{Zarys problemu}
 Problemem komiwojażera nazywamy znalezienie cyklu Hamiltona o najmniejszej karze sumarycznej w grafie pełnym.
-Cykl Hamiltona jest zamkniętą ścieżką w grafie przechodzącą dokładnie raz przez każdy wierzchołek, z wyjątkiem wierzchołka początkowego(końcowego).
+Cykl Hamiltona jest zamkniętą ścieżką w grafie przechodzącą dokładnie raz przez każdy wierzchołek, z wyjątkiem wierzchołka początkowego (końcowego).
 
 \end{frame}
 
@@ -133,7 +134,7 @@ Cykl Hamiltona jest zamkniętą ścieżką w grafie przechodzącą dokładnie ra
 \begin{frame}
 \frametitle{Cykl Hamiltona}
 Znalezienie cyklu Hamiltona w grafie jest problemem należącym do klasy problemów NP.
-Oznacza to, że nie istnieje wielomianowy algorytm (względem ilości wierzchołków) rozwiązujący ten problem. Oznacza to, że dla dużych danych wejściowych nie jesteśmy w stanie obliczyć odpowiedzi w sensownym czasie.
+Oznacza to, że nie istnieje wielomianowy algorytm (względem liczby wierzchołków) rozwiązujący ten problem oraz że dla dużych danych wejściowych nie jesteśmy w stanie obliczyć odpowiedzi w sensownym czasie.
 
 \end{frame}
 
@@ -141,15 +142,13 @@ Oznacza to, że nie istnieje wielomianowy algorytm (względem ilości wierzchoł
 \begin{frame}
 \frametitle{Model matematyczny}
 Dane wejściowe: \\
-Graf pełny $G=(V,E)$  \\
+Graf pełny $G=(V,E)$, nieskierowany, spełniona nierówność trójkąta  \\
 Macierz odległości $D_{nxn}$ \\
-Funkcja kary $ f : (E,K) \rightarrow {\rm I\!R} $ , gdzie $E$ to zbiór wierzchołków $G$ a $K$ to czasy najpóźniejszego przybycia, po którym naliczana jest kara.
-
+Funkcja (? macierz, bo raczej pamiętane niż wyliczane) kary $ f : (E,K) \rightarrow {\rm I\!R} $ , gdzie $E$ to zbiór wierzchołków $G$, a $K$ to czasy najpóźniejszego przybycia, po którym naliczana jest kara.
+\\
 Dane wyjściowe: \\
-Cykl $C$ taki, że suma kar za przekroczenie terminu jest minimalna.
+Cykl $C$, taki że suma kar za przekroczenie terminu jest minimalna.
 \end{frame}
-
-
 
 
 
@@ -161,29 +160,55 @@ Cykl $C$ taki, że suma kar za przekroczenie terminu jest minimalna.
 
 \begin{frame}
 \frametitle{Algorytm mrówkowy}
-\begin{itemize}
-
+\iffalse 
+%\begin{itemize}
 \item Każda mrówka po danej iteracji zostawia na krawędziach feromon o wartości f \\
 \item Z funckją feromonu jest związany współczynnik $\alpha$, który mówi nam jak bardzo mrówki będą w swoich wyborach uwzględniać wartość feromonu na krawędziach. \\
 \item Funkcja ruletki jest wykorzystywana do wyboru kolejnego miasta do odwiedzenia na trasie.\\
 \item Współczynnik parowania - stała z przedziału $(0,1)$ \\
 \item Minimalna ilość feromonu na krawędzi - zabezpieczenie przed utratą danych o danej krawędzi \\
 \item Liczba mrówek - wybierana na początku \\
-\end{itemize}
+%\end{itemize}
+\fi
+
+Niech $f$ -- funkcja feromonu, $h$ -- lokalna heurystyczna funkcja pomocnicza, $r$ -- funkcja ruletki; $\alpha$, $\beta$ -- współczynniki do funkcji; $f_{min}$ -- minimalna wartość feromonu na krawędzi
+
+ustal początkową wartość feromonów na krawędziach \\
+dopóki warunek: \\
+  dla każdej mrówki: \\
+    wylosuj miasto początkowe \\
+    przejdź całą trasę zgodnie z $r$ i zapamiętaj \\
+    uaktualnij rozwiązanie optymalne, jeśli obecne jest lepsze \\
+    na każdej odwiedzonej krawędzi zostaw feromony zgodnie z $h$ \\
+  dla każdej krawędzi:
+    odparuj feromon tak, by wartość była $>= f_{min}$
+
+
 \end{frame}
 %----------------------------------------------------------------------------------------
 
-\subsection{Pseudokod}
+\subsection{Parametry}
 
 \begin{frame}
-\frametitle{Pseudokod}
+\frametitle{Parametry}
+\begin{itemize}
+
+\item $\alpha, \beta, f_{min}$ -- eksperymentalnie
+\item funkcja feromonu $f(e)$
+\item funkcja heurystyczna $h(e) = 1/e$
+\item funkcja ruletki $r = f(e)^\alpha * h(e)^\beta$ 
+\item funkcja parowania $p(e) = max\{f(e) Rand(0,1), f_{min}\}$
+
+\end{itemize}
+
+\iffalse
 1. Dla każdej mrówki wylosuj miasto początkowe \\
 2. Niech każda mrówka przejdzie cykl Hamiltona w grafie: startując z miasta początkowego, przejdź do dotychczas nieodwiedzonego miasta posługując się funkcją rulteki, jednocześnie pamiętając dotychczas przebytą trasę. Gdy wszystkie miasta zostały odwiedzone powróć do punktu startowego.
 3. Po zakończeniu trasy przez wszystkie mrówki dodaj na krawędzie, przez które przeszły wartość równą odwrotności długości przebytej drogi. \\
 4. Jeśli w tej iteracji któraś z mrówek znalazła lepszą ścieżkę, to zapamiętaj to rozwiązanie.\\
 5. Feromony na krawędziach przemnóż przez współczynnik parowania.\\
 6. Wykasuj pamięć dla każdej z mrówek i zacznij kolejną iterację.\\
-
+\fi
 
 \end{frame}
 
