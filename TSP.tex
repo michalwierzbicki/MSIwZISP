@@ -87,7 +87,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[TSP ACU]{Problem komiwojażera} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[TSP ACO]{Problem komiwojażera} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{Miriam Końska, Michał Wierzbicki} % Your name
 \institute[IIUWr] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -211,6 +211,21 @@ dopóki warunek: \\
 5. Feromony na krawędziach przemnóż przez współczynnik parowania.\\
 6. Wykasuj pamięć dla każdej z mrówek i zacznij kolejną iterację.\\
 \fi
+
+\end{frame}
+
+\subsection{Algorytm najbliższego sąsiada}
+\begin{frame}
+\frametitle{Algorytm najbliższego sąsiada}
+
+
+1.    Ustaw wybrany wierzchołek jako aktualny, oznacz go jako odwiedzony.\\
+2.    Znajdź ten spośród nieodwiedzonych wierzchołków, który ma najmniejszy deadline.\\
+3.    Dołącz do rozwiązania krawędź łączącą aktualny wierzchołek z wierzchołkiem znalezionym w punkcie 2.\\
+4.    Oznacz wierzchołek znaleziony w punkcie 2 jako odwiedzony i ustaw go jako aktualny.\\
+5.    Jeśli pozostały jeszcze nieodwiedzone wierzchołki, przejdź do punktu 2.\\
+6.    Dołącz do rozwiązania krawędź łączącą aktualny wierzchołek z wierzchołkiem wybranym w punkcie 1, aby zamknąć cykl.\\
+
 
 \end{frame}
 
